@@ -1,31 +1,17 @@
 import datetime
+from .models import ProductCategory, Product
 
 from django.shortcuts import render
 
 
 def main(request):
     title = "главная"
-    products = [
-        {
-            "name": "Отличный стул",
-            "desc": "Расположитесь комфортно.",
-            "image_src": "product-1.jpg",
-            "image_href": "/product/1/",
-            "alt": "продукт 1",
-        },
-        {
-            "name": "Стул повышенного качества",
-            "desc": "Не оторваться.",
-            "image_src": "product-2.jpg",
-            "image_href": "/product/2/",
-            "alt": "продукт 2",
-        },
-    ]
+    products = Product.objects.all()[:4]
     content = {"title": title, "products": products}
     return render(request, "mainapp/index.html", content)
 
 
-def products(request):
+def products(request, pk=None):
     title = "продукты"
     links_menu = [
         {"href": "products_all", "name": "все"},
@@ -45,6 +31,7 @@ def products(request):
         },
     ]
     content = {"title": title, "links_menu": links_menu, "same_products": same_products}
+    print(f"Категория номер: {pk}")
     return render(request, "mainapp/products.html", content)
 
 
